@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center; /* Centra il testo */
+        }
+        h1 {
+            border: 2px solid #007bff; /* Cornice attorno al titolo */
+            padding: 10px;
+            display: inline-block; /* Per mantenere la cornice attorno al testo */
+            border-radius: 5px; /* Angoli arrotondati */
+            background-color: #f0f8ff; /* Colore di sfondo per il titolo */
+        }
+        .buttons {
+            margin: 20px 0; /* Margine verticale per i pulsanti */
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .news-item {
+            margin-bottom: 15px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px; /* Dimensione del link della news */
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .source-date {
+            font-size: 12px; /* Dimensione più piccola per fonte e data */
+            color: #555; /* Colore più scuro per fonte e data */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>News Calcistiche</h1> <!-- Modificato il titolo -->
+
+    <!-- Pulsanti per filtrare le notizie -->
+    <div class="buttons">
+        <button onclick="showNews('Gazzetta')">Gazzetta</button>
+        <button onclick="showNews('Fantacalcio')">Fantacalcio</button>
+        <button onclick="showNews('SkySport')">SkySport</button> 
+        <button onclick="showNews('TUTTOmercatoWEB')">TUTTOmercatoWEB</button> 
+        <button onclick="showAllNews()">Mostra Tutte</button>
+    </div>
+
+    <!-- Sezione delle notizie -->
+    <div id="news-list">
+        {% for item in news %}
+        <div class="news-item" data-source="{{ item.source }}">
+            <a href="{{ item.link }}" target="_blank">{{ item.title }}</a>
+            <p class="source-date">Fonte: {{ item.source }} | Data: {{ item.timestamp }}</p> <!-- Aggiunto classe per stile -->
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Funzione per mostrare le notizie di uno specifico autore
+        function showNews(source) {
+            var newsItems = document.querySelectorAll('.news-item');
+            newsItems.forEach(function(item) {
+                if (item.getAttribute('data-source') === source) {
+                    item.style.display = 'block';  // Mostra gli articoli con il source specificato
+                } else {
+                    item.style.display = 'none';  // Nasconde gli altri
+                }
+            });
+        }
+
+        // Funzione per mostrare tutte le notizie
+        function showAllNews() {
+            var newsItems = document.querySelectorAll('.news-item');
+            newsItems.forEach(function(item) {
+                item.style.display = 'block';  // Mostra tutte le notizie
+            });
+        }
+
+        // Mostra tutte le notizie all'avvio
+        showAllNews();
+    </script>
+
+</body>
+</html>
